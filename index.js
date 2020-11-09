@@ -12,10 +12,10 @@
     'use strict';
     let match = window.location.href.match("https://github.com/[^/]+/[^/]+/([^/]+)/[^/]+/?(.*)");
     if (match[1] == "edit") {
-        document.getElementsByName("message")[1].value = `- update ${match[2]}`;
+        document.getElementsByName("message")[0].value = `- update ${match[2]}`;
     } else if (match[1] == "new") {
         document.getElementsByName("filename")[0].addEventListener("change", function(e) {
-            document.getElementsByName("message")[1].value = `- add ${e.target.value}`;
+            document.getElementsByName("message")[0].value = `- add ${e.target.value}`;
         });
     }
 })();
