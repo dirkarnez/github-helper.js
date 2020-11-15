@@ -10,12 +10,34 @@
 
 (function() {
     'use strict';
+    const comment = message => {
+        document.getElementsByName("message")[0].value = `- ${message}`;
+    };
+
     let match = window.location.href.match("https://github.com/[^/]+/[^/]+/([^/]+)/[^/]+/?(.*)");
-    if (match[1] == "edit") {
-        document.getElementsByName("message")[0].value = `- update ${match[2]}`;
-    } else if (match[1] == "new") {
-        document.getElementsByName("filename")[0].addEventListener("change", function(e) {
-            document.getElementsByName("message")[0].value = `- add ${e.target.value}`;
-        });
+
+    const action = match[1];
+
+    switch (action) {
+        case "edit":
+            comment(`update ${match[2]}`);
+            break;
+        case "new":
+            document.getElementsByName("filename")[0].addEventListener("change", function(e) {
+                comment(`add ${e.target.value}`);
+            });
+            break;
+        case "upload":
+            var fileList = [];
+            document.getElementsByTagName("file-attachment")[0].addEventListener("drop", function (e) {
+                const fileName = e.dataTransfer.files[0].name;
+                fileList = [...fileList, fileName];
+                if (fileList.length > 1) {
+                    comment(`upload files`);
+                } else {
+                    comment(`upload ${fileList[0]}`);
+                }
+            });
+            break;
     }
 })();
