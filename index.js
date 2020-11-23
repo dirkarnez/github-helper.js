@@ -11,7 +11,7 @@
 (function() {
     'use strict';
     const comment = message => {
-        document.getElementsByName("message")[0].value = `- ${message}`;
+        document.getElementsByName("message")[0].value = `- ${decodeURIComponent(message)}`;
     };
 
     let match = window.location.href.match("https://github.com/[^/]+/[^/]+/([^/]+)/[^/]+/?(.*)");
