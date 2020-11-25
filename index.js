@@ -39,5 +39,8 @@
                 }
             });
             break;
+        case "delete":
+            comment(`delete ${match[2]}`);
+            break;
     }
 })();
