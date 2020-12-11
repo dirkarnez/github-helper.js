@@ -10,6 +10,10 @@
 
 (function() {
     'use strict';
+
+    const timeAgoList = document.getElementsByTagName("time-ago")
+    console.log(`${timeAgoList ? timeAgoList.length : 0} files here`);
+
     const comment = message => {
         document.getElementsByName("message")[0].value = `- ${decodeURIComponent(message)}`;
     };
