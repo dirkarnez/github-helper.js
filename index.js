@@ -4,47 +4,61 @@
 // @version      0.1
 // @description  try to take over the world!
 // @author       You
-// @match        https://github.com/dirkarnez/*
+// @match        *://github.com/*/*
 // @grant        none
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    const timeAgoList = document.getElementsByTagName("time-ago")
-    console.log(`${timeAgoList ? timeAgoList.length : 0} files here`);
+    let match = window.location.href.match("https://github.com/[^/]+/[^/]+/([^/]+)/[^/]+/?(.*)");
+    if (!match) {
+        repoDirectory();
+        return;
+    }
+
+    const action = match[1];
 
     const comment = message => {
         document.getElementsByName("message")[0].value = `- ${decodeURIComponent(message)}`;
     };
 
-    let match = window.location.href.match("https://github.com/[^/]+/[^/]+/([^/]+)/[^/]+/?(.*)");
-
-    const action = match[1];
+    const fileName = document.getElementById("blob-edit-path").value;
 
     switch (action) {
         case "edit":
-            comment(`update ${match[2]}`);
+            comment(`update ${fileName}`);
             break;
         case "new":
             document.getElementsByName("filename")[0].addEventListener("change", function(e) {
-                comment(`add ${e.target.value}`);
+                comment(`add ${fileName}`);
             });
             break;
         case "upload":
             var fileList = [];
             document.getElementsByTagName("file-attachment")[0].addEventListener("drop", function (e) {
-                const fileName = e.dataTransfer.files[0].name;
-                fileList = [...fileList, fileName];
-                if (fileList.length > 1) {
-                    comment(`upload files`);
-                } else {
-                    comment(`upload ${fileList[0]}`);
-                }
+                comment(`upload files`);
             });
             break;
         case "delete":
-            comment(`delete ${match[2]}`);
+            comment(`delete ${fileName}`);
             break;
+    }
+
+    function repoDirectory() {
+         let intervalHandle = setInterval(function(){
+             let timeAgoList;
+
+             while (!timeAgoList || timeAgoList.length < 1) {
+                 console.log(timeAgoList, "!!!");
+                 timeAgoList = document.getElementsByTagName("time-ago");
+             }
+
+             clearInterval(intervalHandle);
+
+             console.log(timeAgoList.length, "!?!!");
+             var t = document.createTextNode(`\xA0\xA0${timeAgoList.length} files / folders here`);
+             document.querySelector(".file-navigation > div:nth-child(2) > a:nth-child(2)").parentNode.appendChild(t);
+         }, 1000);
     }
 })();
