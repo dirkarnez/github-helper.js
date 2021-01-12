@@ -8,3 +8,10 @@ Under development. Not ready to use.
 
 ### TODOs
 - [ ] Chrome extension
+
+```
+repo home 
+window.location.href.match(/https:\/\/github.com\/[^/]+\/[^/]+$/g);
+
+class repository-content 
+```
