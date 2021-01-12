@@ -1,5 +1,5 @@
-lazy-github-committer
-=====================
+github-helper
+=============
 Templated commit message generator for GitHub
 
 ### TODOs
