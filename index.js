@@ -23,15 +23,13 @@
         document.getElementsByName("message")[0].value = `- ${decodeURIComponent(message)}`;
     };
 
-    const fileName = document.getElementById("blob-edit-path").value;
-
     switch (action) {
         case "edit":
-            comment(`update ${fileName}`);
+            comment(`update ${document.getElementById("blob-edit-path").value}`);
             break;
         case "new":
             document.getElementsByName("filename")[0].addEventListener("change", function(e) {
-                comment(`add ${fileName}`);
+                comment(`add ${document.getElementById("blob-edit-path").value}`);
             });
             break;
         case "upload":
@@ -41,7 +39,7 @@
             });
             break;
         case "delete":
-            comment(`delete ${fileName}`);
+            comment(`delete ${document.getElementById("blob-edit-path").value}`);
             break;
     }
 
