@@ -10,6 +10,7 @@ Under development. Not ready to use.
 - [ ] Chrome extension
 
 ```
+window._octo
 repo home 
 window.location.href.match(/https:\/\/github.com\/[^/]+\/[^/]+$/g);
 
