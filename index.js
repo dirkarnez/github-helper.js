@@ -11,6 +11,10 @@
 (function() {
     'use strict';
 
+    if (!!window.GetRepoElement) {
+        return;
+    }
+
     let match = window.location.href.match("https://github.com/[^/]+/[^/]+/([^/]+)/[^/]+/?(.*)");
     if (!match) {
         repoDirectory();
