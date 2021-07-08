@@ -11,17 +11,26 @@
 (function() {
     'use strict';
 
-     let i = setTimeout(function(){
-         clearTimeout(i);
+    (() => {
+        var attemptCount = 0;
 
-         if (typeof window.GetRepoElement == typeof undefined) {
-             console.log("GitHub Helper exits");
-             return;
-         } else {
-             console.log("GitHub Helper continues");
-             continues();
-         }
-     }, 2000);
+        let i = setInterval(function(){
+            attemptCount++;
+
+            console.log("attemptCount = ", attemptCount);
+
+            if (attemptCount < 10) {
+                if (typeof window.GetRepoElement != typeof undefined) {
+                    console.log("GitHub Helper continues!");
+                    clearInterval(i);
+                    continues();
+                }
+            } else {
+                clearInterval(i);
+                console.log("GitHub Helper exits!");
+            }
+        }, 500);
+    })()
 
     const continues = () => {
         let match = window.location.href.match("https://github.com/[^/]+/[^/]+/([^/]+)/[^/]+/?(.*)");
