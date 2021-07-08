@@ -11,56 +11,65 @@
 (function() {
     'use strict';
 
-    if (!!window.GetRepoElement) {
-        return;
-    }
+     let i = setTimeout(function(){
+         clearTimeout(i);
 
-    let match = window.location.href.match("https://github.com/[^/]+/[^/]+/([^/]+)/[^/]+/?(.*)");
-    if (!match) {
-        repoDirectory();
-        return;
-    }
+         if (typeof window.GetRepoElement == typeof undefined) {
+             console.log("GitHub Helper exits");
+             return;
+         } else {
+             console.log("GitHub Helper continues");
+             continues();
+         }
+     }, 2000);
 
-    const action = match[1];
+    const continues = () => {
+        let match = window.location.href.match("https://github.com/[^/]+/[^/]+/([^/]+)/[^/]+/?(.*)");
+        if (!match) {
+            repoDirectory();
+            return;
+        }
 
-    const comment = message => {
-        document.getElementsByName("message")[0].value = `- ${decodeURIComponent(message)}`;
-    };
+        const action = match[1];
 
-    switch (action) {
-        case "edit":
-            comment(`update ${document.getElementById("blob-edit-path").value}`);
-            break;
-        case "new":
-            document.getElementsByName("filename")[0].addEventListener("change", function(e) {
-                comment(`add ${document.getElementById("blob-edit-path").value}`);
-            });
-            break;
-        case "upload":
-            var fileList = [];
-            document.getElementsByTagName("file-attachment")[0].addEventListener("drop", function (e) {
-                comment(`upload files`);
-            });
-            break;
-        case "delete":
-            comment(`delete ${document.getElementById("blob-edit-path").value}`);
-            break;
-    }
+        const comment = message => {
+            document.getElementsByName("message")[0].value = `- ${decodeURIComponent(message)}`;
+        };
 
-    function repoDirectory() {
-         let intervalHandle = setInterval(function(){
-             let timeAgoList;
+        switch (action) {
+            case "edit":
+                comment(`update ${document.getElementById("blob-edit-path").value}`);
+                break;
+            case "new":
+                document.getElementsByName("filename")[0].addEventListener("change", function(e) {
+                    comment(`add ${document.getElementById("blob-edit-path").value}`);
+                });
+                break;
+            case "upload":
+                var fileList = [];
+                document.getElementsByTagName("file-attachment")[0].addEventListener("drop", function (e) {
+                    comment(`upload files`);
+                });
+                break;
+            case "delete":
+                comment(`delete ${document.getElementById("blob-edit-path").value}`);
+                break;
+        }
 
-             while (!timeAgoList || timeAgoList.length < 1) {
-                 console.log(timeAgoList, "!!!");
-                 timeAgoList = document.getElementsByTagName("time-ago");
-             }
+        function repoDirectory() {
+            let intervalHandle = setInterval(function(){
+                let timeAgoList;
 
-             clearInterval(intervalHandle);
+                while (!timeAgoList || timeAgoList.length < 1) {
+                    timeAgoList = document.getElementsByTagName("time-ago");
+                }
 
-             console.log(timeAgoList.length, "!?!!");
-             var t = document.createTextNode(`\xA0\xA0${timeAgoList.length} files / folders here`);
-             document.querySelector(".file-navigation > div:nth-child(2) > a:nth-child(2)").parentNode.appendChild(t);
-         }, 1000);
+                clearInterval(intervalHandle);
+
+                console.log(timeAgoList.length, "!?!!");
+                var t = document.createTextNode(`\xA0\xA0${timeAgoList.length} files / folders here`);
+                document.querySelector(".file-navigation > div:nth-child(2) > a:nth-child(2)").parentNode.appendChild(t);
+            }, 1000);
+        }
     }
 })();
