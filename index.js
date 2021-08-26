@@ -35,9 +35,16 @@
     const continues = () => {
         let match = window.location.href.match("https://github.com/[^/]+/[^/]+/([^/]+)/[^/]+/?(.*)");
         if (!match) {
-            repoDirectory();
+            if (!!document.getElementById("branch-select-menu")) {
+                repoDirectory();
+            } else {
+                console.log("Empty Repo!");
+                console.log("GitHub Helper exits!");
+            }
             return;
         }
+
+
 
         const action = match[1];
 
